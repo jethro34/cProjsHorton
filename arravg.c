@@ -11,12 +11,13 @@
 #define MAX_CHARS 128
 #define MAX_FLOATS 64
 
+float avg_fltarr(float *arr[]);
+
 int main() {
   char *pStr, *pTkn;
   char *pDlm = " \n";       // init delimiter str
   float *pFlts[MAX_FLOATS];  // floats array
   short fltcount = 0;
-  float accavg=0;
 
   // allocate memory for ptrs
   if (!(pStr = calloc(MAX_CHARS, sizeof(int)))) exit(1);
@@ -39,12 +40,9 @@ int main() {
   }
   putchar('\n');
   
-  // calculate average
-  for (short i=0; i<fltcount; accavg += *pFlts[i++]);
-  accavg /= fltcount;
-
-  printf("Average of the floats entered: %.2f\n", accavg);
-
+  // calculate & print average of arr via function
+  printf("Average of the floats entered: %.2f\n", avg_fltarr(pFlts));
+  
   // free allocated memory
   free(pStr);
   free(pTkn);
@@ -53,3 +51,9 @@ int main() {
   return 0;
 }
 
+float avg_fltarr(float *arr[]) {
+  float acc=0;
+  short i=0;
+  for (; *arr; acc += **(arr++), i++);
+  return acc/i;
+}
